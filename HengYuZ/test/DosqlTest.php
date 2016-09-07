@@ -7,11 +7,6 @@
  */
 namespace HengYuZ\test;
 
-include '../src/Dosql.php';
-
-use HengYuZ\src\Dosql;
-
-
 $dosql = new Dosql(['localhost' => 'localhost', 'username' => 'root', '', 'db_name' => 'test']);
 
 $res = $dosql->select('users', '', ['name=' => 'zhu']);

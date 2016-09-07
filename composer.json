@@ -1,0 +1,20 @@
+{
+  "name": "hengyuz/dosql",
+  "description": "dosql is a class which has sealed the generic operate of mysql databases",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "HengYuZ",
+      "email": "1448768191@qq.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "HengYuZ\\src\\": "HengYuZ/src",
+      "HengYuZ\\test\\": "HengYuZ/test"
+    }
+  }
+}
