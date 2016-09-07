@@ -5,7 +5,7 @@
  * Date: 2016/9/6
  * Time: 21:06
  */
-namespace mydb\db;
+namespace hengyu\db;
 class Dosql
 {
     //base data property
