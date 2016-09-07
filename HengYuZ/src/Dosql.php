@@ -5,7 +5,7 @@
  * Date: 2016/9/6
  * Time: 21:06
  */
-namespace hengyu\db;
+namespace HengYuZ\src;
 class Dosql
 {
     //base data property
@@ -55,6 +55,27 @@ class Dosql
             }
         } catch (\Exception $e) {
             echo '连接数据库出错，错误信息：' . $e;
+        }
+    }
+
+    //切换数据库名
+    public function switchDb($db_name)
+    {
+        if ($db_name && $this->object) {
+            $res = mysqli_select_db($this->object, $db_name);
+            return $res;
+        } else {
+            return false;
+        }
+    }
+
+    public function switchTbPrefix($tb_prefix)
+    {
+        if ($tb_prefix && $this->object) {
+            $this->tb_prefix = $tb_prefix;
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -140,11 +161,16 @@ class Dosql
         }
         $condition = $this->combineConditions($data);
         try {
-            if ($field_name == '')
+            if ($field_name == '' && $condition) {
                 $sql = 'select * from ' . $this->tb_prefix . $tb_name . ' where ' . $condition;
-            elseif (count($field) >= 1) {
+            } elseif ($field_name == '' && $condition == '') {
+                $sql = 'select * from ' . $this->tb_prefix . $tb_name;
+            } elseif ($field_name != '' && $condition) {
                 $sql = 'select ' . $field_name . ' from ' . $this->tb_prefix . $tb_name . ' where ' . $condition;
+            } elseif ($field_name != '' && $condition == '') {
+                $sql = 'select * from' . $this->tb_prefix . $tb_name;
             }
+
             $res = mysqli_query($this->object, $sql);
             if ($res) {
                 echo '查找数据如下<br/>';
@@ -251,21 +277,4 @@ class Dosql
         }
     }
 }
-
-$dosql = new Dosql(['localhost' => 'localhost', 'username' => 'root', '', 'db_name' => 'test']);
-$res = $dosql->select('users', '', ['name=' => 'zhu']);
-foreach ($res as $key => $item) {
-    $i = 1;
-    foreach ($item as $key2 => $value) {
-        if ($i % count($item) == 0)
-            echo $value . '<br/>';
-        else
-            echo $value . ' ';
-        $i++;
-    }
-}
-$dosql->update('users', ['name=' => 'zhu'], ['name=' => 'zhy']);
-$dosql->insert('users', ['123456', '12346513@qq.com']);
-$dosql->delete('users', ['OR' => ['name=' => '123456', 'email=' => 'hello.com']]);
-
 
